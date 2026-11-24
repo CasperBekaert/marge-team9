@@ -5,7 +5,6 @@
 // the test drops again (the same way as the after-W6 fixture).
 import { postgresAdapter, type PostgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import type { PoolClient } from 'pg'
 import { buildConfig, getPayload, type CollectionConfig, type Payload } from 'payload'
 import sharp from 'sharp'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
@@ -77,7 +76,6 @@ describe('the course check on a site without clinics and bookings', () => {
   afterAll(async () => {
     if (p) {
       const pool = (p.db as unknown as PostgresAdapter).pool
-      ;(pool as typeof pool & { _clients: PoolClient[] })._clients[0]?.release()
       await pool.end()
       await p.destroy()
     }

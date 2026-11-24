@@ -12,7 +12,6 @@
 import { PGlite } from '@electric-sql/pglite'
 import { PGLiteSocketServer } from '@electric-sql/pglite-socket'
 import { postgresAdapter, type PostgresAdapter } from '@payloadcms/db-postgres'
-import type { PoolClient } from 'pg'
 import { buildConfig, getPayload, type PayloadRequest, type Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { databaseTransactions, LOCAL_DATABASE_URL } from '../../scripts/lib/localDatabase.mjs'
@@ -74,7 +73,6 @@ describe("saving from /admin on your laptop's database (PGlite)", () => {
     // After a hang the connections are stuck: closing them would wait forever too.
     if (!hung && payload) {
       const pool = (payload.db as unknown as PostgresAdapter).pool
-      ;(pool as typeof pool & { _clients: PoolClient[] })._clients[0]?.release()
       await pool.end()
       await payload.destroy()
     }

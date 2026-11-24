@@ -2,7 +2,6 @@
 // first part runs on the app's own config (before W5 and W6); the second on a copy of the site after
 // W5 and W6 (tests/fixtures/config-after-w6.ts), in a database schema of its own that it drops again.
 import type { PostgresAdapter } from '@payloadcms/db-postgres'
-import type { PoolClient } from 'pg'
 import { getPayload, type Payload } from 'payload'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import * as route from '../../src/app/api/course-check/route'
@@ -91,7 +90,7 @@ describe('the course check, before W5 and W6 (the app as it ships)', () => {
   const schema = 'course_check_shipped'
   let base: Payload
   let p: Payload
-  const answer = (incoming: Request) => courseCheckResponse(incoming, { payload: p })
+  const answer = (incoming: Request) => courseCheckResponse(incoming, { payload: p, teamConfig: { transactional: { collection: 'bookings', nameField: 'name' } } })
 
   beforeAll(async () => {
     base = await getTestPayload()
@@ -303,9 +302,10 @@ describe('the course check, before W5 and W6 (the app as it ships)', () => {
     expect((await teamOf(response)).transactional).toEqual({ collection: 'bookings', status: 'ok', codeField: 'name', newest: { id: String(mine.id), createdAt: new Date(mine.createdAt).toISOString() } })
   })
 
-  it('the route itself answers the team section from the app, with the starter config (bookings)', async () => {
+  it('the route itself answers the team section with Marge appointments and study relationships', async () => {
     const team = await teamOf(await route.GET(request('?include=team')))
-    expect(team.transactional.collection).toBe('bookings')
+    expect(team.transactional.collection).toBe('appointments')
+    expect(team.manyToMany).toContainEqual({from:'studyMethods',field:'phases',to:'studyPhases',join:'methods'})
     expect(team.transactional.status).toBe('ok')
     const slugs = team.collections.map((collection) => collection.slug)
     expect(slugs).toEqual(expect.arrayContaining(TEMPLATE_SLUGS))
@@ -331,9 +331,8 @@ async function openFixture(base: Payload, shape: Shape, schema: string): Promise
 
 async function closeFixture(base: Payload, fixture: Payload | undefined, schema: string): Promise<void> {
   if (fixture) {
-    // The same clean-up as tests/setup/payload.ts: release Payload's first connection, then the rest.
+    // Close this fixture's test-owned pool; Payload already released its initial connection.
     const pool = (fixture.db as unknown as PostgresAdapter).pool
-    ;(pool as typeof pool & { _clients: PoolClient[] })._clients[0]?.release()
     await pool.end()
     await fixture.destroy()
   }
