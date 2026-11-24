@@ -44,7 +44,7 @@
           "count": 1
         },
         {
-          "selector": "body > header nav",
+          "selector": "body > header > nav",
           "count": 1
         },
         {
@@ -74,57 +74,57 @@
       "path": "/"
     },
     {
-      "path": "/clinics"
+      "path": "/planning"
     },
     {
-      "path": "/clinics/{test-clinic}",
+      "path": "/lessen"
+    },
+    {
+      "path": "/examens"
+    },
+    {
+      "path": "/methodes"
+    },
+    {
+      "path": "/methodes/weekplanning"
+    },
+    {
+      "path": "/fases/plannen"
+    },
+    {
+      "path": "/afspraak",
       "groups": [
         {
           "criterion": 3,
           "steps": [
             {
-              "selector": "form :is(input, select, textarea):not([type=\"hidden\"], [type=\"submit\"], [type=\"button\"], [type=\"reset\"], [id], [aria-label], [aria-labelledby]):not(label *)",
-              "count": 0
-            },
-            {
               "selector": "label[for=\"name\"]",
               "count": 1
             },
             {
-              "selector": "label[for=\"email\"]",
-              "count": 1
-            },
-            {
-              "selector": "label[for=\"note\"]",
-              "count": 1
-            },
-            {
-              "selector": "label[for=\"extra\"]",
+              "selector": "label[for=\"code\"]",
               "count": 1
             }
           ],
-          "fix": "Give every form field a visible <label> whose for= matches the field's id, or put the field inside its <label>."
+          "fix": "Give every name and group code input a visible label."
         },
         {
           "criterion": 4,
           "steps": [
             {
-              "selector": "form:has(input[name=\"requestId\"])",
-              "textIncludes": "This is a practice project: use made-up details; no one will contact you."
+              "selector": "main",
+              "textIncludes": "Gebruik verzonnen gegevens."
             }
           ],
-          "fix": "Keep the notice \"This is a practice project: use made-up details; no one will contact you.\" in the booking form, above the \"Book this slot\" button."
+          "fix": "Show the instruction to use invented details before the form."
         }
       ]
     },
     {
-      "path": "/about"
+      "path": "/project"
     },
     {
       "path": "/privacy"
-    },
-    {
-      "path": "/contact"
     }
   ]
 }
