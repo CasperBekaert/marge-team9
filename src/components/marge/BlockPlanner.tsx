@@ -421,11 +421,13 @@ export function BlockPlanner() {
                           title={`${d.kind}: ${d.subject}`}
                         >
                           <b>{d.kind === 'Studeren' ? '' : `${d.kind} · `}</b>
-                          {d.subject === 'Rust'
-                            ? d.kind === 'Rust'
-                              ? 'Vrije dag'
-                              : d.subject
-                            : d.subject}
+                          <span>
+                            {d.subject === 'Rust'
+                              ? d.kind === 'Rust'
+                                ? 'Vrije dag'
+                                : d.subject
+                              : d.subject}
+                          </span>
                         </span>
                       ))}
                     </button>
