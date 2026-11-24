@@ -12,12 +12,12 @@ vi.mock('@vercel/analytics', () => ({ track: vercel.track }))
 // For the site layout's test: Vercel's page-view component as a stand-in that can be recognised, and
 // the layout's other parts replaced by nothing (they need a database and Next.js's font loader).
 vi.mock('@vercel/analytics/next', () => ({ Analytics: function VercelAnalytics() { return null } }))
-vi.mock('next/font/google', () => ({ Hanken_Grotesk: () => ({ variable: 'font' }) }))
+vi.mock('next/font/google', () => ({ Hanken_Grotesk: () => ({ variable: 'font' }), Instrument_Serif: () => ({ variable: 'serif' }) }))
 vi.mock('@/components/site/Header', () => ({ Header: () => null }))
 vi.mock('@/components/site/Footer', () => ({ Footer: () => null }))
 
 import { Analytics } from '@vercel/analytics/next'
-import SiteLayout from '../../src/app/(site)/layout'
+import { SiteAnalytics } from '../../src/components/marge/SiteAnalytics'
 import { analyticsOn, track } from '../../src/lib/analytics'
 import { TrackStep } from '../../src/components/site/TrackStep'
 
@@ -154,7 +154,7 @@ describe('the site layout', () => {
   afterEach(() => vi.unstubAllEnvs())
 
   // The layout's elements, without rendering them, so the test sees which components it uses.
-  const usesAnalytics = () => JSON.stringify(SiteLayout({ children: null }), (_key, value) => (value === Analytics ? 'ANALYTICS' : value)).includes('ANALYTICS')
+  const usesAnalytics = () => JSON.stringify(SiteAnalytics(), (_key, value) => (value === Analytics ? 'ANALYTICS' : value)).includes('ANALYTICS')
 
   it("adds Vercel's page views only when NEXT_PUBLIC_ANALYTICS is vercel", () => {
     vi.stubEnv('NEXT_PUBLIC_ANALYTICS', undefined)

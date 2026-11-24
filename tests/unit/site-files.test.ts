@@ -68,7 +68,7 @@ describe("the site's name in the browser tab", () => {
     const named = files.filter((file) => read(file).includes(`· ${SITE_NAME}`))
     expect(named, "give only the page's own title; the layout adds \" · \" and the name").toEqual([])
     // The "not found" page gets no title from the layout, so it adds the name from the same constant.
-    expect(read('src/app/(site)/not-found.tsx')).toContain('<title>{`Page not found · ${SITE_NAME}`}</title>')
+    expect(read('src/app/(site)/not-found.tsx')).toContain('<title>{`Pagina niet gevonden · ${SITE_NAME}`}</title>')
   })
 })
 

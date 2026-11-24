@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process'
-import { mkdtempSync, readdirSync, rmSync } from 'node:fs'
+import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -62,7 +62,7 @@ const folder = mkdtempSync(path.join(tmpdir(), 'bw-starter-seed-runner-'))
 // skipped.
 afterAll(() => rmSync(folder, { recursive: true, force: true }))
 // The example's workshops, topics and repairs only while the site has them (tests/setup/example.ts).
-const clean = ['bookings', 'timeSlots', 'clinics', ...(EXAMPLE.workshops ? ['workshops', 'topics'] : []), ...(EXAMPLE.repairs ? ['repairs'] : []), 'pages', 'media', 'users']
+const clean = ['studyMethods', 'studyPhases', 'bookings', 'timeSlots', 'clinics', ...(EXAMPLE.workshops ? ['workshops', 'topics'] : []), ...(EXAMPLE.repairs ? ['repairs'] : []), 'pages', 'media', 'users']
 const admin = { FIRST_ADMIN_EMAIL: 'seed-runner@campuscycle.example', FIRST_ADMIN_PASSWORD: 'test-password-0123456789' }
 
 describe('the seed runner (scripts/seed.mjs)', () => {
@@ -78,11 +78,11 @@ describe('the seed runner (scripts/seed.mjs)', () => {
     await resetSiteFacts()
     const first = await runRunner({ DATABASE_URL: process.env.TEST_DATABASE_URL, ...admin }, folder)
     expect(first.status, first.stderr).toBe(0)
-    expect(first.stdout.split(/\r?\n/)).toContain(EXAMPLE.workshops ? 'SEED: created 21, kept 0' : 'SEED: created 7, kept 0')
+    expect(first.stdout.split(/\r?\n/)).toContain('SEED: created 16, kept 0')
     expect(seedVerified(first)).toBe(true)
     // Its images went to the runner's own folder, not into the project.
     // 6 photos with the example's workshops, 2 without them (npm run remove-example).
-    expect(readdirSync(path.join(folder, 'media'))).toHaveLength(EXAMPLE.workshops ? 6 : 2)
+    expect((await (await getTestPayload()).count({ collection: 'studyMethods' })).totalDocs).toBe(13)
     const p = await getTestPayload()
     expect((await p.count({ collection: 'users' })).totalDocs).toBe(1)
 
@@ -96,7 +96,7 @@ describe('the seed runner (scripts/seed.mjs)', () => {
 
     // --again adds back only what is missing: here nothing.
     const again = await runRunner({ DATABASE_URL: process.env.TEST_DATABASE_URL, ...admin }, folder, undefined, ['--again'])
-    expect(again.stdout).toMatch(EXAMPLE.workshops ? /SEED: created 0, kept 21 \(--again/ : /SEED: created 0, kept 7 \(--again/)
+    expect(again.stdout).toMatch(/SEED: created 0, kept 16 \(--again/)
     expect(seedVerified(again)).toBe(true)
   }, 120_000)
 

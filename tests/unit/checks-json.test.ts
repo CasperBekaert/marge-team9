@@ -40,7 +40,7 @@ describe('checks/checks.json', () => {
     const paths = pages.map((page) => page.path)
     // The example's workshop pages only while the site has them (tests/setup/example.ts).
     const workshopPages = EXAMPLE.workshopPages ? ['/workshops', '/workshops/adjust-your-brakes', '/topics/brakes-and-gears'] : []
-    for (const path of ['/', ...workshopPages, '/clinics', '/clinics/{test-clinic}', '/about', '/privacy']) {
+    for (const path of ['/', ...workshopPages, '/methodes', '/methodes/weekplanning', '/fases/plannen', '/afspraak', '/project', '/privacy']) {
       expect(paths).toContain(path)
     }
     expect(paths.every((path) => path.startsWith('/'))).toBe(true)
@@ -61,13 +61,13 @@ describe('checks/checks.json', () => {
   it('checks every page for one h1, its landmarks and alt text; the clinic for labels and the practice-project notice', () => {
     const everyPage = JSON.stringify(file.everyPage)
     for (const selector of ['"h1"', 'body > header', 'main', 'body > footer', 'img:not([alt])']) expect(everyPage).toContain(selector)
-    const clinic = JSON.stringify(pages.find((page) => page.path === '/clinics/{test-clinic}'))
-    for (const field of ['name', 'email', 'note']) expect(clinic).toContain(`label[for=\\"${field}\\"]`)
-    expect(clinic).toContain('This is a practice project: use made-up details; no one will contact you.')
+    const clinic = JSON.stringify(pages.find((page) => page.path === '/afspraak'))
+    for (const field of ['name', 'code']) expect(clinic).toContain(`label[for=\\"${field}\\"]`)
+    expect(clinic).toContain('Gebruik verzonnen gegevens.')
   })
 
   it('runs through the evaluator: a page that answers every step right passes, one that does not fails with its fix', async () => {
-    const page = pages.find((candidate) => candidate.path === '/clinics/{test-clinic}')!
+    const page = pages.find((candidate) => candidate.path === '/afspraak')!
     // A stand-in page that answers each step the way a good page does.
     const good = (): CheckDriver => ({
       begin: async () => {},
@@ -76,7 +76,7 @@ describe('checks/checks.json', () => {
         const expected = page.groups.flatMap((group) => group.steps).find((step) => 'count' in step && step.selector === selector)
         return expected && 'count' in expected ? expected.count : 0
       },
-      text: async () => 'Your name … This is a practice project: use made-up details; no one will contact you. Book this slot',
+      text: async () => 'Your name … Gebruik verzonnen gegevens. Book this slot',
       style: async () => null,
       loaded: async () => true,
       click: async () => true,

@@ -18,14 +18,23 @@ const CLINIC_IMAGE = 'clinic-tools'
 
 export const metadata: Metadata = {
   title: 'Repair clinic',
-  description: 'Book a time slot at the Campus Cycle repair clinic and bring your bicycle for a check or a repair.',
+  description:
+    'Book a time slot at the Marge repair clinic and bring your bicycle for a check or a repair.',
 }
 
 export default async function ClinicsPage() {
   const payload = await getPayload({ config })
   // Newest first: the clinic added last is usually the one that is on now.
-  const clinics = (await payload.find({ collection: 'clinics', sort: '-createdAt', depth: 0, limit: 20 })).docs
-  const picture = (await payload.find({ collection: 'media', where: { filename: { contains: CLINIC_IMAGE } }, limit: 1 })).docs[0]
+  const clinics = (
+    await payload.find({ collection: 'clinics', sort: '-createdAt', depth: 0, limit: 20 })
+  ).docs
+  const picture = (
+    await payload.find({
+      collection: 'media',
+      where: { filename: { contains: CLINIC_IMAGE } },
+      limit: 1,
+    })
+  ).docs[0]
 
   return (
     <div className="pb-6">
@@ -37,18 +46,26 @@ export default async function ClinicsPage() {
       {clinics.length === 0 ? (
         <Notice tone="warning" label="Not open yet" className="max-w-3xl">
           <p className="font-heading text-xl font-extrabold">The repair clinic opens soon</p>
-          <p>When it opens, you can book a time slot on this page and bring your bicycle for a check or a repair.</p>
-          <p>Until then, you can learn to do it yourself in a workshop.</p>
-          <ButtonLink href="/workshops" variant="secondary" className="mt-2 w-fit">Find a workshop</ButtonLink>
+          <p>
+            When it opens, you can book a time slot on this page and bring your bicycle for a check
+            or a repair.
+          </p>
         </Notice>
       ) : (
         <ul className="grid max-w-3xl gap-block">
           {clinics.map((clinic) => (
             <li key={clinic.id} className="grid">
-              <FramedCard title={clinic.name} href={`/clinics/${clinic.slug}`} accent="coral" headingLevel="h2">
+              <FramedCard
+                title={clinic.name}
+                href={`/clinics/${clinic.slug}`}
+                accent="coral"
+                headingLevel="h2"
+              >
                 <p className="font-semibold">{formatWhen(clinic)}</p>
                 <p>{clinic.summary}</p>
-                <ButtonLink href={`/clinics/${clinic.slug}`} className="w-fit">Book a time slot</ButtonLink>
+                <ButtonLink href={`/clinics/${clinic.slug}`} className="w-fit">
+                  Book a time slot
+                </ButtonLink>
               </FramedCard>
             </li>
           ))}

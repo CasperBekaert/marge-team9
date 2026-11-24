@@ -2,7 +2,6 @@ import { getPayload, type Payload } from 'payload'
 import config from './config'
 import { afterAll } from 'vitest'
 import type { PostgresAdapter } from '@payloadcms/db-postgres'
-import type { PoolClient } from 'pg'
 import { refuseUnlessThrowAwayTestDatabase } from './safety'
 
 let cached: Payload | undefined
@@ -10,14 +9,8 @@ let cached: Payload | undefined
 // Each test file owns an instance. Release its connections before the next file starts.
 afterAll(async () => {
   if (!cached) return
-  // Payload 3.90.2 keeps its first connection checked out for reconnection monitoring.
-  // Release that test-owned connection before ending the pool; destroy alone does not close it.
-  // If a test run hangs here (for example after a Payload upgrade), this workaround is obsolete: it no
-  // longer matches how Payload holds that connection. Check whether the new version releases it itself,
-  // then update or remove the lines below.
+  // Payload now releases its initial connection itself; close the test-owned pool once.
   const pool = (cached.db as unknown as PostgresAdapter).pool
-  const initial = (pool as typeof pool & { _clients: PoolClient[] })._clients[0]
-  initial?.release()
   await pool.end()
   await cached.destroy()
 })

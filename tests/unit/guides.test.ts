@@ -206,7 +206,6 @@ const MESSAGES: Message[] = [
   { file: 'src/lib/firstAdmin.ts', code: 'No admin user exists and FIRST_ADMIN_EMAIL / FIRST_ADMIN_PASSWORD are not set.' },
   // Printed by the build and by npm run dev, migrate and seed.
   { file: 'scripts/lib/messages.mjs', code: 'Could not reach your database to check which one it is' },
-  { file: 'src/seed/seed.ts', code: 'Images cannot be stored: this Vercel project has no Blob store connected.' },
   { file: 'scripts/lib/watchdog.mjs', code: 'The database did not answer within 110 seconds.' },
   { file: 'scripts/lib/watchdog.mjs', code: 'The seed did not finish within 110 seconds.' },
   { file: 'src/tasks/book-slot/capacity.ts', code: 'This slot is full. Choose another time.' },

@@ -68,15 +68,17 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    studyPhases: StudyPhase;
+    studyMethods: StudyMethod;
+    mentorGroups: MentorGroup;
+    participants: Participant;
+    appointments: Appointment;
     users: User;
     media: Media;
     pages: Page;
-    topics: Topic;
-    workshops: Workshop;
     clinics: Clinic;
     timeSlots: TimeSlot;
     bookings: Booking;
-    repairs: Repair;
     throttle: Throttle;
     members: Member;
     'payload-kv': PayloadKv;
@@ -85,8 +87,8 @@ export interface Config {
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
-    topics: {
-      workshops: 'workshops';
+    studyPhases: {
+      methods: 'studyMethods';
     };
     clinics: {
       timeSlots: 'timeSlots';
@@ -96,15 +98,17 @@ export interface Config {
     };
   };
   collectionsSelect: {
+    studyPhases: StudyPhasesSelect<false> | StudyPhasesSelect<true>;
+    studyMethods: StudyMethodsSelect<false> | StudyMethodsSelect<true>;
+    mentorGroups: MentorGroupsSelect<false> | MentorGroupsSelect<true>;
+    participants: ParticipantsSelect<false> | ParticipantsSelect<true>;
+    appointments: AppointmentsSelect<false> | AppointmentsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
-    topics: TopicsSelect<false> | TopicsSelect<true>;
-    workshops: WorkshopsSelect<false> | WorkshopsSelect<true>;
     clinics: ClinicsSelect<false> | ClinicsSelect<true>;
     timeSlots: TimeSlotsSelect<false> | TimeSlotsSelect<true>;
     bookings: BookingsSelect<false> | BookingsSelect<true>;
-    repairs: RepairsSelect<false> | RepairsSelect<true>;
     throttle: ThrottleSelect<false> | ThrottleSelect<true>;
     members: MembersSelect<false> | MembersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -167,6 +171,90 @@ export interface MemberAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "studyPhases".
+ */
+export interface StudyPhase {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  methods?: {
+    docs?: (number | StudyMethod)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "studyMethods".
+ */
+export interface StudyMethod {
+  id: number;
+  title: string;
+  slug: string;
+  summary: string;
+  body: string;
+  kind: 'uitleg' | 'zelf';
+  minutes?: number | null;
+  href: string;
+  phases: (number | StudyPhase)[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mentorGroups".
+ */
+export interface MentorGroup {
+  id: number;
+  name: string;
+  inviteCode: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "participants".
+ */
+export interface Participant {
+  id: number;
+  name: string;
+  group: number | MentorGroup;
+  role: 'mentor' | 'mentee';
+  tokenHash: string;
+  availability?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments".
+ */
+export interface Appointment {
+  id: number;
+  name: string;
+  group: number | MentorGroup;
+  proposer: number | Participant;
+  partner: number | Participant;
+  startsAt: string;
+  status: 'proposed' | 'confirmed' | 'cancelled';
+  place: 'online' | 'bibliotheek';
+  requestId: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -246,77 +334,6 @@ export interface Page {
     };
     [k: string]: unknown;
   } | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "topics".
- */
-export interface Topic {
-  id: number;
-  name: string;
-  /**
-   * The last part of the web address, for example repair-a-puncture. Use lowercase letters, digits and hyphens.
-   */
-  slug: string;
-  description?: string | null;
-  workshops?: {
-    docs?: (number | Workshop)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "workshops".
- */
-export interface Workshop {
-  id: number;
-  title: string;
-  /**
-   * The last part of the web address, for example repair-a-puncture. Use lowercase letters, digits and hyphens.
-   */
-  slug: string;
-  level: 'beginner' | 'intermediate';
-  day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
-  /**
-   * Use the 24-hour clock, for example 18:30.
-   */
-  startTime: string;
-  /**
-   * Use the 24-hour clock, for example 20:00. Leave empty if the workshop has none.
-   */
-  endTime?: string | null;
-  /**
-   * Only for a workshop with no end time that must be over by a certain time. Use the 24-hour clock, for example 15:00. Pages show "ends by 15:00".
-   */
-  latestEnd?: string | null;
-  price: number;
-  /**
-   * The largest number of people in one workshop.
-   */
-  groupSize: number;
-  summary: string;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  image?: (number | null) | Media;
-  topics?: (number | Topic)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -428,18 +445,6 @@ export interface Member {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "repairs".
- */
-export interface Repair {
-  id: number;
-  name: string;
-  price: number;
-  description?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "throttle".
  */
 export interface Throttle {
@@ -473,6 +478,26 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'studyPhases';
+        value: number | StudyPhase;
+      } | null)
+    | ({
+        relationTo: 'studyMethods';
+        value: number | StudyMethod;
+      } | null)
+    | ({
+        relationTo: 'mentorGroups';
+        value: number | MentorGroup;
+      } | null)
+    | ({
+        relationTo: 'participants';
+        value: number | Participant;
+      } | null)
+    | ({
+        relationTo: 'appointments';
+        value: number | Appointment;
+      } | null)
+    | ({
         relationTo: 'users';
         value: number | User;
       } | null)
@@ -485,14 +510,6 @@ export interface PayloadLockedDocument {
         value: number | Page;
       } | null)
     | ({
-        relationTo: 'topics';
-        value: number | Topic;
-      } | null)
-    | ({
-        relationTo: 'workshops';
-        value: number | Workshop;
-      } | null)
-    | ({
         relationTo: 'clinics';
         value: number | Clinic;
       } | null)
@@ -503,10 +520,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'bookings';
         value: number | Booking;
-      } | null)
-    | ({
-        relationTo: 'repairs';
-        value: number | Repair;
       } | null)
     | ({
         relationTo: 'throttle';
@@ -570,6 +583,73 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "studyPhases_select".
+ */
+export interface StudyPhasesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  methods?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "studyMethods_select".
+ */
+export interface StudyMethodsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  body?: T;
+  kind?: T;
+  minutes?: T;
+  href?: T;
+  phases?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mentorGroups_select".
+ */
+export interface MentorGroupsSelect<T extends boolean = true> {
+  name?: T;
+  inviteCode?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "participants_select".
+ */
+export interface ParticipantsSelect<T extends boolean = true> {
+  name?: T;
+  group?: T;
+  role?: T;
+  tokenHash?: T;
+  availability?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments_select".
+ */
+export interface AppointmentsSelect<T extends boolean = true> {
+  name?: T;
+  group?: T;
+  proposer?: T;
+  partner?: T;
+  startsAt?: T;
+  status?: T;
+  place?: T;
+  requestId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
@@ -626,39 +706,6 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "topics_select".
- */
-export interface TopicsSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  description?: T;
-  workshops?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "workshops_select".
- */
-export interface WorkshopsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  level?: T;
-  day?: T;
-  startTime?: T;
-  endTime?: T;
-  latestEnd?: T;
-  price?: T;
-  groupSize?: T;
-  summary?: T;
-  description?: T;
-  image?: T;
-  topics?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "clinics_select".
  */
 export interface ClinicsSelect<T extends boolean = true> {
@@ -696,17 +743,6 @@ export interface BookingsSelect<T extends boolean = true> {
   note?: T;
   member?: T;
   requestId?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "repairs_select".
- */
-export interface RepairsSelect<T extends boolean = true> {
-  name?: T;
-  price?: T;
-  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -792,11 +828,11 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface SiteFact {
   id: number;
   /**
-   * Shown on the home page and on every workshop page.
+   * Shown on the home page.
    */
   pricingRule: string;
   /**
-   * Where the workshops and the clinic are. Shown on the Contact page and on every workshop page.
+   * Where the clinic is. Shown on the Contact page and on the clinic page.
    */
   place: string;
   /**

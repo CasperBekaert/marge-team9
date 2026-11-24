@@ -19,7 +19,7 @@ import type { CourseCheckConfig } from '@/lib/courseCheck'
 
 export const courseCheckConfig: CourseCheckConfig = {
   transactional: {
-    collection: 'bookings',
+    collection: 'appointments',
     nameField: 'name',
   },
 }

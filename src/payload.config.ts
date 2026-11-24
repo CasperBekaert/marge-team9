@@ -6,15 +6,17 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
+import { StudyPhases } from './collections/MentorContent'
+import { StudyMethods } from './collections/MentorContent'
+import { MentorGroups } from './collections/MentorContent'
+import { Participants } from './collections/MentorContent'
+import { Appointments } from './collections/MentorContent'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
-import { Topics } from './collections/Topics'
-import { Workshops } from './collections/Workshops'
 import { Clinics } from './collections/Clinics'
 import { TimeSlots } from './collections/TimeSlots'
 import { Bookings } from './collections/Bookings'
-import { Repairs } from './collections/Repairs'
 import { Throttle } from './collections/Throttle'
 import { Members } from './collections/Members'
 import { SiteFacts } from './globals/SiteFacts'
@@ -52,16 +54,32 @@ const config = buildConfig({
     },
   },
   // Members: the optional members' area, off unless MEMBERS_AREA=on (src/lib/membersArea.ts).
-  collections: [Users, Media, Pages, Topics, Workshops, Clinics, TimeSlots, Bookings, Repairs, Throttle, Members],
+  collections: [
+    StudyPhases,
+    StudyMethods,
+    MentorGroups,
+    Participants,
+    Appointments,
+    Users,
+    Media,
+    Pages,
+    Clinics,
+    TimeSlots,
+    Bookings,
+    Throttle,
+    Members,
+  ],
   globals: [SiteFacts],
-  plugins: [vercelBlobStorage({
-    enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
-    collections: { media: true },
-    token: process.env.BLOB_READ_WRITE_TOKEN,
-    alwaysInsertFields: true,
-    // The plugin's default accepts any signed-in user; members must not gain upload permission.
-    clientUploads: { access: isEditor },
-  })],
+  plugins: [
+    vercelBlobStorage({
+      enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
+      collections: { media: true },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      alwaysInsertFields: true,
+      // The plugin's default accepts any signed-in user; members must not gain upload permission.
+      clientUploads: { access: isEditor },
+    }),
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   // Runs once whenever the website starts - `next dev` and the running production site. The migration
@@ -98,7 +116,16 @@ const config = buildConfig({
 // which record each editor has open, lock records, or remove an editor's lock. Here that collection is
 // restricted to editors, like everything else; /admin's own locking runs as the editor, so it still works.
 export default config.then((built) => {
-  const locks = built.collections.find((collection) => collection.slug === 'payload-locked-documents')
-  if (locks) locks.access = { ...locks.access, create: isEditor, read: isEditor, update: isEditor, delete: isEditor }
+  const locks = built.collections.find(
+    (collection) => collection.slug === 'payload-locked-documents',
+  )
+  if (locks)
+    locks.access = {
+      ...locks.access,
+      create: isEditor,
+      read: isEditor,
+      update: isEditor,
+      delete: isEditor,
+    }
   return built
 })

@@ -1,51 +1,33 @@
-# Decision: analytics
-
-Whether the site measures how it is used, and with which tool. Its reader comes later, with one
-question: can I change this, and what happens if I do? Fill in every place marked TODO. The starter's
-analytics are off until `NEXT_PUBLIC_ANALYTICS` names a tool; see `src/lib/analytics.ts`.
+# D5a · Analytics
 
 ## The question
 
-What had to be decided, in one sentence.
-
-TODO: the question analytics should answer for your site.
+Vinden studenten de methodes en afspraakpagina, en welke apparaten gebruiken zij?
 
 ## Options considered
 
-At least two, each with its main advantage and drawback (for example: no analytics; Vercel Web
-Analytics; Matomo, only if someone already hosts it for you).
-
-- TODO: option 1, its advantage and its drawback.
-- TODO: option 2, its advantage and its drawback.
+Geen analytics: eenvoudig, geen gebruikssignaal. Vercel: past bij hosting. Matomo: extra eigen beheer.
 
 ## The decision
 
-Which option you chose. Once it is installed: what you installed, where its settings are, and how you
-checked that it does what you expected (the final rubric asks for it).
+Besluit op 24 november 2026: Vercel Web Analytics voor paginabezoeken, zonder betaalde custom events.
 
-TODO: the option you chose.
+Vraag: vinden studenten de methodes en de afspraakpagina, en op welke apparaten bekijken ze die? Geen analytics geeft de meeste eenvoud maar geen gebruikssignaal. Vercel sluit aan bij de hosting en werkt zonder trackingcookies. Een zelfgehoste Matomo vraagt extra beheer buiten de scope.
+
+`NEXT_PUBLIC_ANALYTICS=vercel` staat in .env.production. `SiteAnalytics` verwijdert queryparameters en fragments vóór verzending, zodat zoektermen niet meegaan. Tokens staan nooit in URL’s. Afspraken tellen we desgewenst in onze eigen CMS; geen namen, koppelcodes of persoonlijke toegangscodes naar analytics. Een bezoek aan /afspraak bewijst geen afgeronde transactie.
 
 ## Why
 
-The reasons, each with its evidence.
-
-TODO: why you chose it.
+Paginabezoeken zijn voldoende voor de huidige leervraag en vereisen geen eigen analyticsserver.
 
 ## Consequences
 
-What you accepted with the choice, the bad with the good: what you can and cannot learn, what the free
-plan does not do, what it means for your users' privacy.
-
-TODO: the consequences.
+Hobby heeft volgens de geraadpleegde documentatie 50.000 events per maand gedeeld over projecten, één maand bewaartermijn en geen custom events. We upgraden niet automatisch. Bij het bereiken van de limiet of wijziging van het doel heroverwegen we de keuze. De privacytekst vermeldt de externe verwerking.
 
 ## Facts read on
 
-The date you read each provider's pages, with their links: plans and limits change.
-
-TODO: each page you read, with its link and the date.
+Bronnen, gelezen 24 november 2026: [Vercel Analytics limits](https://vercel.com/docs/analytics/limits-and-pricing), [Privacy](https://vercel.com/docs/analytics/privacy-policy), [beforeSend](https://vercel.com/docs/analytics/redacting-sensitive-data).
 
 ## Review when
 
-The event that should make someone look at this decision again, such as reaching a plan's limit.
-
-TODO: when to review it.
+Bij gewijzigde plannen, bereiken van limieten of behoefte aan conversiemeting. Dashboardcontrole wordt in D6 vastgelegd; nog geen echte gebruikersconclusies.

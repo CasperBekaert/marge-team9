@@ -1,4 +1,4 @@
-// What this is: the bottom of every page: what Campus Cycle is, the small print links (with Contact,
+// What this is: the bottom of every page: what Marge is, the small print links (with Contact,
 // where the place and the e-mail address are), and one honest line saying the site is a made-up example.
 //
 // It reads nothing from the database on purpose: it is on every page, the "not found" page too, and
@@ -34,7 +34,7 @@ export function Footer() {
           </ul>
         </nav>
         <p className="border-t border-line pt-6 text-sm text-ink-soft sm:col-span-2">
-          Campus Cycle is a fictional example site for the course Building better websites.
+          Marge is a fictional example site for the course Building better websites.
         </p>
       </div>
     </footer>
