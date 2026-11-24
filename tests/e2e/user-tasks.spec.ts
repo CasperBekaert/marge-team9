@@ -82,3 +82,47 @@ test('local week plan rejects overlap and survives a reload', async ({ page }) =
   await page.reload()
   await expect(page.getByRole('button', { name: /Statistiek oefenen, 09:00/ })).toBeVisible()
 })
+
+test('block calendar paints, protects exams, undoes, renames and persists', async ({ page }) => {
+  await page.goto('/planning#blokplanner')
+  const planner = page.locator('#blokplanner')
+  await planner.getByLabel('Vak', { exact: true }).fill('Economie')
+  await planner.getByLabel('Studiepunten (optioneel)').fill('6')
+  await planner.getByLabel('Examendatum (optioneel)').fill('2027-01-07')
+  await planner.getByRole('button', { name: 'Voeg vak toe', exact: true }).click()
+  await planner.getByLabel('Beginmaand').fill('2027-01')
+  await expect(planner.getByRole('heading', { name: 'maart 2027', exact: true })).toBeVisible()
+  await planner.getByRole('button', { name: '6 januari 2027, vrij', exact: true }).click()
+  await expect(
+    planner.getByRole('button', { name: '6 januari 2027, Studeren: Economie', exact: true }),
+  ).toBeVisible()
+  const exam = planner.getByRole('button', {
+    name: '7 januari 2027, Examen: Economie, vast examen',
+    exact: true,
+  })
+  await expect(exam).toHaveAttribute('aria-disabled', 'true')
+  await planner.getByRole('button', { name: 'Rust', exact: true }).click()
+  await planner
+    .getByRole('button', { name: '6 januari 2027, Studeren: Economie', exact: true })
+    .click()
+  await expect(
+    planner.getByRole('button', { name: '6 januari 2027, Rust: Rust', exact: true }),
+  ).toBeVisible()
+  await planner.getByRole('button', { name: 'Ongedaan maken', exact: true }).click()
+  await planner.getByRole('button', { name: 'Wijzig vak Economie', exact: true }).click()
+  await planner.getByLabel('Vak', { exact: true }).fill('Micro-economie')
+  await planner.getByRole('button', { name: 'Bewaar vak', exact: true }).click()
+  await page.reload()
+  await expect(
+    planner.getByRole('button', { name: '6 januari 2027, Studeren: Micro-economie', exact: true }),
+  ).toBeVisible()
+  await expect(
+    planner.getByRole('button', {
+      name: '7 januari 2027, Examen: Micro-economie, vast examen',
+      exact: true,
+    }),
+  ).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  )
+})

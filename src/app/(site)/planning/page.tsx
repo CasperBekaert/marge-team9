@@ -1,7 +1,8 @@
+import { BlockPlanner } from '@/components/marge/BlockPlanner'
 import { FocusSound } from '@/components/marge/Audio'
 import { PageIntro, Note } from '@/components/marge/Shell'
 import { WeekIllustration } from '@/components/marge/StudyTools'
-import { WeekPlanner, Deadlines, BlockPlanner, Chapters } from '@/components/marge/PlanningTools'
+import { WeekPlanner, Deadlines, Chapters } from '@/components/marge/PlanningTools'
 export const metadata = { title: 'Maak ruimte in je week' }
 export default function Planning() {
   return (

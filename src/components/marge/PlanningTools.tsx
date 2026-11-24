@@ -26,7 +26,7 @@ function useSaved<T>(key: string, initial: T) {
   }, [data, key, loaded])
   return { data, setData, loaded, storageError }
 }
-function exportCSV(name: string, rows: (string | number)[][]) {
+export function exportCSV(name: string, rows: (string | number)[][]) {
   const csv =
     '\ufeff' +
     rows
@@ -50,7 +50,7 @@ function exportCSV(name: string, rows: (string | number)[][]) {
   a.click()
   URL.revokeObjectURL(url)
 }
-function Actions({ download }: { download: () => void }) {
+export function Actions({ download }: { download: () => void }) {
   return (
     <div className="tool-actions">
       <button className="quiet-button" onClick={download}>
@@ -62,7 +62,7 @@ function Actions({ download }: { download: () => void }) {
     </div>
   )
 }
-function StorageNote({ error }: { error: boolean }) {
+export function StorageNote({ error }: { error: boolean }) {
   return (
     <p className="smallprint" role={error ? 'alert' : undefined}>
       {error
@@ -325,98 +325,6 @@ export function Deadlines() {
       <p className="smallprint" role="status">
         {data.filter((d) => !d.done).length} open · {data.filter((d) => d.done).length} afgevinkt
       </p>
-    </section>
-  )
-}
-type StudyDay = { id: string; date: string; subject: string; kind: string }
-export function BlockPlanner() {
-  const { data, setData, storageError } = useSaved<StudyDay[]>('marge-blok-v1', [])
-  return (
-    <section className="tool" id="blokplanner">
-      <div className="tool-head">
-        <div>
-          <h3>Een plan voor je blok.</h3>
-          <StorageNote error={storageError} />
-        </div>
-        <Actions
-          download={() =>
-            exportCSV('marge-blokplanning', [
-              ['Datum', 'Vak', 'Soort'],
-              ...data.map((d) => [d.date, d.subject, d.kind]),
-            ])
-          }
-        />
-      </div>
-      <p className="muted" style={{ marginBottom: 20 }}>
-        Zet je examens eerst in de lijst. Plan daarna studie-, herhaal- en rustdagen ertussen. Neem
-        examendata over uit je officiële rooster.
-      </p>
-      <form
-        className="field-grid"
-        onSubmit={(e) => {
-          e.preventDefault()
-          const fd = new FormData(e.currentTarget)
-          setData((xs) =>
-            [
-              ...xs,
-              {
-                id: crypto.randomUUID(),
-                date: String(fd.get('date')),
-                subject: String(fd.get('subject')),
-                kind: String(fd.get('kind')),
-              },
-            ].sort((a, b) => a.date.localeCompare(b.date)),
-          )
-          e.currentTarget.reset()
-        }}
-      >
-        <div className="field">
-          <label htmlFor="study-date">Datum</label>
-          <input id="study-date" type="date" name="date" required />
-        </div>
-        <div className="field">
-          <label htmlFor="study-subject">Vak of activiteit</label>
-          <input id="study-subject" name="subject" required maxLength={80} />
-        </div>
-        <div className="field">
-          <label htmlFor="study-kind">Soort dag</label>
-          <select id="study-kind" name="kind">
-            <option>Studeren</option>
-            <option>Herhalen</option>
-            <option>Examen</option>
-            <option>Rust</option>
-          </select>
-        </div>
-        <button className="button small">Voeg dag toe</button>
-      </form>
-      {!data.length ? (
-        <p className="empty">Begin met je eerste examen. De dagen ervoor kan je daarna invullen.</p>
-      ) : (
-        <ul className="task-list">
-          {data.map((d) => (
-            <li key={d.id}>
-              <span className="tag">{d.kind}</span>
-              <div className="grow">
-                <strong>{d.subject}</strong>
-                <small>
-                  {new Date(d.date + 'T12:00:00').toLocaleDateString('nl-BE', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                  })}
-                </small>
-              </div>
-              <button
-                className="quiet-button"
-                aria-label={`Verwijder ${d.subject} op ${d.date}`}
-                onClick={() => setData((xs) => xs.filter((x) => x.id !== d.id))}
-              >
-                Verwijder
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
     </section>
   )
 }
