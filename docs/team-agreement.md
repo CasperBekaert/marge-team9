@@ -1,36 +1,40 @@
-For teams; a learner working alone can delete this file.
+# D0 · Teamafspraken — voorstel
 
-# Team agreement
-
-How your team works together. Every member reads it at the start, and you read it again when something
-goes wrong. Fill in every place marked TODO.
+Status: werkversie van 24 november 2026. Niet door alle teamleden bevestigd en niet ingediend. De rollen hieronder zijn een voorstel op verzoek van Casper, geen verklaring over geleverd werk.
 
 ## Members, roles and pairs
 
-TODO: each member, their role, and who works in a pair with whom.
+| Teamlid | Voorgestelde verantwoordelijkheid | Reviewpartner |
+|---|---|---|
+| Casper Bekaert | Integratie, GitHub en Vercel; releasecheck | Gilles |
+| Gilles Lambert | Studie-inhoud en broncontrole | Casper |
+| Anna Isachenko | Informatiestructuur en leesbaarheid | Bo |
+| Bo Igodt | Visueel ontwerp en mobiel gebruik | Anna |
+| Daan Verhaevert | Afsprakenflow en datamodel | zesde teamlid |
+| Zesde teamlid, identiteit nog door team te bevestigen | Toegankelijkheid en gebruikerstest | Daan |
+
+De cursus toont ook een automatisch toegewezen teamlid met een generiek label. Vul de juiste naam pas in na bevestiging. De door Casper aangeleverde uitwerking van Ziel is de inhoudelijke basis; daarmee is niet vastgesteld dat Ziel hetzelfde teamlid is als Gilles.
 
 ## How we communicate
 
-TODO: where you talk (a chat, a call, in person), how quickly you answer, and where decisions are
-written down.
+Voorstel: dagelijkse korte afstemming in de bestaande groepschat, binnen één werkdag reageren, besluiten met datum vastleggen in docs/decisions. 
 
 ## How we decide
 
-TODO: how you decide when you disagree, and who decides when you cannot agree.
+Meningsverschil eerst toetsen aan gebruikersbehoefte en opdracht. Blijft het verschil bestaan, dan kiest het team bij meerderheid; bij gelijke stemmen houdt de eenvoudigste toetsbare optie voorlopig stand.
 
 ## When a pull request is done
 
-TODO: what must be true before a pull request is merged: its checks, who reviews it, and what they
-look at.
+Eén afgebakende wijziging; uitleg van probleem en resultaat; controles groen; geen geheimen of echte persoonsgegevens; een ander teamlid beoordeelt werking, leesbaarheid en mobiele bediening. Iedereen maakt zelf ten minste één inhoudelijke codebijdrage via een eigen PR. De bestaande AI-bouw geldt niet als bewijs van zes menselijke bijdragen.
 
 ## The AI note
 
-TODO: what every pull request's AI note says, and how you check what an AI tool wrote before you use it.
+Iedere PR heeft de kop `## AI note: what I asked AI, and what I checked`. Benoem opdracht, gebruikte hulp, daadwerkelijk uitgevoerde controles en beperkingen. Schrijf nooit dat een mens getest of gereviewd heeft als dat niet is gebeurd.
 
 ## When someone stops contributing
 
-TODO: what you do when a member stops doing their part: who talks to them, when, and what happens next.
+Na één gemiste afspraak neemt de reviewpartner contact op; na twee werkdagen bespreekt het team een kleinere taak en nieuwe datum. Als deelname uitblijft, legt het team feitelijk vast wat gebeurde en bespreekt dit met de docent. Geen verzonnen commits of rollen als vervanging.
 
 ## Agreed by
 
-TODO: each member's name and the date they agreed.
+Nog te bevestigen door ieder teamlid met naam en datum. Dit document is een concreet voorstel, geen ondertekend akkoord.
