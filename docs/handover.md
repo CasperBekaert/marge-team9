@@ -10,7 +10,7 @@ Beheer: /admin. Beheerdersgegevens worden apart en lokaal aan Casper bezorgd; no
 
 ### Lokaal werken
 
-Node 22; `npm ci`; eigen .env.local volgens .env.example; `npm run dev`. De guard gebruikt uitsluitend een lokale database voor ontwikkelcommando’s. Schemawijziging: `npm run migrate:create`, migratie beoordelen, `npm run migrate`, `npm run generate`, commit. Controle: `npm run lint`, `npm run typecheck`, `npm test`. CI bouwt de site, controleert schema en migraties, AI-note, inhoud en browsergedrag.
+Node 22, minimaal 22.23.5; `npm ci`; eigen .env.local volgens .env.example; `npm run dev`. De guard gebruikt uitsluitend een lokale database voor ontwikkelcommando’s. Schemawijziging: `npm run migrate:create`, migratie beoordelen, `npm run migrate`, `npm run generate`, commit. Controle: `npm run lint`, `npm run typecheck`, `npm test`. CI bouwt de site, controleert schema en migraties, AI-note, inhoud en browsergedrag.
 
 ### Publiceren en herstellen
 

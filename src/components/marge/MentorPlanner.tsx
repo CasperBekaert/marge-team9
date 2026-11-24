@@ -439,6 +439,12 @@ export function MentorPlanner() {
                 Volgende week
               </button>
             </div>
+            {availableHints.length > 0 && (
+              <p className="smallprint">
+                {selected?.name} kan onder andere op: {availableHints.map(dateLabel).join(' · ')}{' '}
+                (Brussel).
+              </p>
+            )}
             <div className="calendar-scroll">
               <div className="availability">
                 <span>Tijd</span>

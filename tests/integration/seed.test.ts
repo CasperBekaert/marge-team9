@@ -1,10 +1,14 @@
-import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, afterEach, afterAll, describe, expect, it, vi } from 'vitest'
 import { seed } from '../../src/seed/seed'
 import { runSeed } from '../../src/seed/run'
 import { getTestPayload, resetCollections, forgetExampleAdded } from '../setup/payload'
 import { refuseUnlessThrowAwayTestDatabase } from '../setup/safety'
 refuseUnlessThrowAwayTestDatabase()
 afterEach(() => vi.unstubAllEnvs())
+afterAll(async () => {
+  await resetCollections(['studyMethods', 'studyPhases', 'users'])
+  await forgetExampleAdded()
+})
 beforeEach(async () => {
   vi.stubEnv('FIRST_ADMIN_EMAIL', 'seed-test@marge.example')
   vi.stubEnv('FIRST_ADMIN_PASSWORD', 'test-password-marge-0123456789')

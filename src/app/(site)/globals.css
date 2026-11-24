@@ -281,7 +281,7 @@ main:focus {
 }
 .mini-calendar {
   display: grid;
-  grid-template-columns: 32px repeat(5, 1fr);
+  grid-template-columns: 26px repeat(5, minmax(0, 1fr));
   grid-template-rows: 28px repeat(5, 56px);
   gap: 3px;
   background: repeating-linear-gradient(
@@ -297,6 +297,8 @@ main:focus {
   text-align: center;
 }
 .mini-slot {
+  min-width: 0;
+  overflow-wrap: anywhere;
   border-radius: 4px;
   padding: 7px;
   font-size: 12px;
@@ -1018,7 +1020,7 @@ input[type='radio'] {
     gap: 35px;
   }
   .hero h1 {
-    font-size: 62px;
+    font-size: clamp(48px, 15.8vw, 62px);
   }
   .hero-art {
     max-width: 480px;
@@ -1026,8 +1028,15 @@ input[type='radio'] {
     margin: auto;
     padding-inline: 8px;
   }
+  .workbook {
+    padding: 16px 12px;
+  }
+  .workbook-head {
+    gap: 12px;
+  }
   .mini-slot {
-    font-size: 12px;
+    padding: 4px 2px;
+    font-size: 11px;
   }
   .intro-strip {
     align-items: start;
@@ -1171,17 +1180,73 @@ input[type='radio'] {
   }
 }
 
-.sound-setting { display:flex; align-items:center; gap:16px; margin-top:24px; font-size:13px; flex-wrap:wrap; }
-.sound-setting button { color:inherit; border:1px solid currentColor; }
-.focus-sound { display:grid; grid-template-columns:1fr 1fr; gap:40px; padding:32px; border:1px solid var(--line); background:var(--paper); margin:32px 0; }
-.sound-controls { display:grid; gap:12px; align-content:center; }
-.sound-controls label { display:flex; justify-content:space-between; }
-.sound-controls input { width:100%; min-height:28px; }
-.audio-guide { border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:28px 0; margin:28px 0; max-width:750px; }
-.audio-label { display:flex; align-items:center; gap:20px; margin-bottom:20px; }
-.audio-label > span { font-size:34px; }
-.audio-guide h2 { font-size:28px; }
-.audio-guide audio { width:100%; }
-.audio-guide details { margin:16px 0; }
-.audio-guide details p { margin-top:16px; line-height:1.7; }
-@media(max-width:700px) { .focus-sound { grid-template-columns:1fr; padding:24px; gap:24px; } }
+.sound-setting {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+.sound-setting button {
+  color: inherit;
+  border: 1px solid currentColor;
+}
+.focus-sound {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 32px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  margin: 32px 0;
+}
+.sound-controls {
+  display: grid;
+  gap: 12px;
+  align-content: center;
+}
+.sound-controls label {
+  display: flex;
+  justify-content: space-between;
+}
+.sound-controls input {
+  width: 100%;
+  min-height: 28px;
+}
+.audio-guide {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 28px 0;
+  margin: 28px 0;
+  max-width: 750px;
+}
+.audio-label {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.audio-label > span {
+  font-size: 34px;
+}
+.audio-guide h2 {
+  font-size: 28px;
+}
+.audio-guide audio {
+  width: 100%;
+}
+.audio-guide details {
+  margin: 16px 0;
+}
+.audio-guide details p {
+  margin-top: 16px;
+  line-height: 1.7;
+}
+@media (max-width: 700px) {
+  .focus-sound {
+    grid-template-columns: 1fr;
+    padding: 24px;
+    gap: 24px;
+  }
+}

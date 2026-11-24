@@ -64,6 +64,9 @@ test('two separate sessions save, propose, confirm, recover and cancel', async (
   await page.reload()
   await expect(page.getByText('Bevestigd', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Annuleer afspraak', exact: true }).click()
+  await expect(
+    page.getByText('Afspraak geannuleerd. Het halfuur is weer vrij.', { exact: true }),
+  ).toBeVisible()
   expect((await api('state', {}, mentee.token)).appointments[0].status).toBe('cancelled')
   expect(menteeState.me).not.toBe(state.me)
 })
@@ -75,7 +78,7 @@ test('local week plan rejects overlap and survives a reload', async ({ page }) =
   await expect(page.getByRole('button', { name: /Statistiek oefenen, 09:00/ })).toBeVisible()
   await page.getByLabel('Wat ga je doen?', { exact: true }).fill('Overlap test')
   await page.getByRole('button', { name: 'Voeg blok toe', exact: true }).click()
-  await expect(page.getByRole('alert')).toContainText('overlapt')
+  await expect(page.getByRole('alert').filter({ hasText: 'overlapt' })).toBeVisible()
   await page.reload()
   await expect(page.getByRole('button', { name: /Statistiek oefenen, 09:00/ })).toBeVisible()
 })

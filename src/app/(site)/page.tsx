@@ -1,3 +1,5 @@
+import { AudioGuide } from '@/components/marge/Audio'
+import { introTranscript } from '@/content/audio'
 import Link from 'next/link'
 import { WeekIllustration, StudyQuiz } from '@/components/marge/StudyTools'
 export default function Home() {
@@ -37,6 +39,11 @@ export default function Home() {
             Het verhaal achter Marge
           </Link>
         </div>
+        <AudioGuide
+          src="/audio/marge-intro.mp3"
+          title="Marge in één minuut."
+          transcript={introTranscript}
+        />
         <section className="section">
           <div className="section-head">
             <h2>
