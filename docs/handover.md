@@ -32,7 +32,7 @@ De geautomatiseerde en online controles staan met bewijs in D6. Audio is lokaal 
 
 Bevestig leden en rollen in D0. Laat elk teamlid een eigen echte code-PR maken en beoordelen. Voer de menselijke gebruikerstest uit met het script in D6 en noteer echte bevindingen. Controleer de UGent companion-hand-in: juiste URL, publiek repo, definitieve commit, documenten, CI op die commit, course-check, review van het toegewezen team. Team 9 beoordeelt volgens de geraadpleegde cursus Team 21; Team 6 beoordeelt Team 9. Verifieer die toewijzing opnieuw vóór indiening. Deze sessie dient niets in en voert geen collegiale review namens mensen uit.
 
-## Check-in A — aanvullende controle op 24 november 2026
+### Check-in A — aanvullende controle op 24 november 2026
 
 Nog niet ingediend en nog niet volledig klaar. De vier officiële checks zijn gelezen in [Check-in A](https://betterwebsitesv2.vercel.app/learn/building-better-websites-ugent/check-in-a-set-up-your-teams-repository-and-live-site).
 
@@ -41,6 +41,6 @@ Nog niet ingediend en nog niet volledig klaar. De vier officiële checks zijn ge
 - Toegang: alleen CasperBekaert is collaborator; geen open uitnodigingen. Alle echte teamleden moeten hun GitHub koppelen en een repository-uitnodiging accepteren; docent jnmoons moet eveneens worden uitgenodigd. Toegang voor de course checks-app is nog niet bevestigd.
 - D0: officiële rollen en werkparen zijn voorgesteld; alleen voornamen in de actuele versie. Ieder lid moet zelf akkoord geven met datum. De identiteit van het generiek getoonde zesde lid moet eerst met de docent worden opgehelderd.
 - Cursusportaal: alle rollen nog ongekozen; repository/live URL nog niet gekoppeld; A, H1, H2 en Final tonen 'Nothing handed in yet' en geen deadline.
-- Setup buiten de vier kaartchecks: iedereen moet lokaal kunnen starten. Automatische Neon-previewopruiming mist nog NEON_API_KEY. De project-ID kan als Actions-variable worden ingesteld; het aanmaken/toekennen van de sleutel is nog open. Blob-token is bij deze controle beperkt tot Production, conform de cursus.
+- Setup buiten de vier kaartchecks: iedereen moet lokaal kunnen starten. Automatische Neon-previewopruiming mist nog NEON_API_KEY. NEON_PROJECT_ID is als Actions-variable ingesteld; het aanmaken/toekennen van de sleutel is nog open. Blob-token is bij deze controle beperkt tot Production, conform de cursus.
 
 Echte gebruikerstests, hertests en een code-PR per teamlid zijn voor de latere stappen, niet allemaal al voor A. Voor H2 hoort ook de heuristische evaluatie van Team 21 erbij; Team 6 evalueert ons.
