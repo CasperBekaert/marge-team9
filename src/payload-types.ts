@@ -68,6 +68,11 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    studyPhases: StudyPhase;
+    studyMethods: StudyMethod;
+    mentorGroups: MentorGroup;
+    participants: Participant;
+    appointments: Appointment;
     users: User;
     media: Media;
     pages: Page;
@@ -82,6 +87,9 @@ export interface Config {
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
+    studyPhases: {
+      methods: 'studyMethods';
+    };
     clinics: {
       timeSlots: 'timeSlots';
     };
@@ -90,6 +98,11 @@ export interface Config {
     };
   };
   collectionsSelect: {
+    studyPhases: StudyPhasesSelect<false> | StudyPhasesSelect<true>;
+    studyMethods: StudyMethodsSelect<false> | StudyMethodsSelect<true>;
+    mentorGroups: MentorGroupsSelect<false> | MentorGroupsSelect<true>;
+    participants: ParticipantsSelect<false> | ParticipantsSelect<true>;
+    appointments: AppointmentsSelect<false> | AppointmentsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
@@ -158,6 +171,90 @@ export interface MemberAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "studyPhases".
+ */
+export interface StudyPhase {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  methods?: {
+    docs?: (number | StudyMethod)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "studyMethods".
+ */
+export interface StudyMethod {
+  id: number;
+  title: string;
+  slug: string;
+  summary: string;
+  body: string;
+  kind: 'uitleg' | 'zelf';
+  minutes?: number | null;
+  href: string;
+  phases: (number | StudyPhase)[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mentorGroups".
+ */
+export interface MentorGroup {
+  id: number;
+  name: string;
+  inviteCode: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "participants".
+ */
+export interface Participant {
+  id: number;
+  name: string;
+  group: number | MentorGroup;
+  role: 'mentor' | 'mentee';
+  tokenHash: string;
+  availability?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments".
+ */
+export interface Appointment {
+  id: number;
+  name: string;
+  group: number | MentorGroup;
+  proposer: number | Participant;
+  partner: number | Participant;
+  startsAt: string;
+  status: 'proposed' | 'confirmed' | 'cancelled';
+  place: 'online' | 'bibliotheek';
+  requestId: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -381,6 +478,26 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'studyPhases';
+        value: number | StudyPhase;
+      } | null)
+    | ({
+        relationTo: 'studyMethods';
+        value: number | StudyMethod;
+      } | null)
+    | ({
+        relationTo: 'mentorGroups';
+        value: number | MentorGroup;
+      } | null)
+    | ({
+        relationTo: 'participants';
+        value: number | Participant;
+      } | null)
+    | ({
+        relationTo: 'appointments';
+        value: number | Appointment;
+      } | null)
+    | ({
         relationTo: 'users';
         value: number | User;
       } | null)
@@ -463,6 +580,73 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "studyPhases_select".
+ */
+export interface StudyPhasesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  methods?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "studyMethods_select".
+ */
+export interface StudyMethodsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  body?: T;
+  kind?: T;
+  minutes?: T;
+  href?: T;
+  phases?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mentorGroups_select".
+ */
+export interface MentorGroupsSelect<T extends boolean = true> {
+  name?: T;
+  inviteCode?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "participants_select".
+ */
+export interface ParticipantsSelect<T extends boolean = true> {
+  name?: T;
+  group?: T;
+  role?: T;
+  tokenHash?: T;
+  availability?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments_select".
+ */
+export interface AppointmentsSelect<T extends boolean = true> {
+  name?: T;
+  group?: T;
+  proposer?: T;
+  partner?: T;
+  startsAt?: T;
+  status?: T;
+  place?: T;
+  requestId?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

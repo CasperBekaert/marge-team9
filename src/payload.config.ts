@@ -6,6 +6,7 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
+import { StudyPhases, StudyMethods, MentorGroups, Participants, Appointments } from './collections/MentorContent'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
@@ -49,7 +50,7 @@ const config = buildConfig({
     },
   },
   // Members: the optional members' area, off unless MEMBERS_AREA=on (src/lib/membersArea.ts).
-  collections: [Users, Media, Pages, Clinics, TimeSlots, Bookings, Throttle, Members],
+  collections: [StudyPhases, StudyMethods, MentorGroups, Participants, Appointments, Users, Media, Pages, Clinics, TimeSlots, Bookings, Throttle, Members],
   globals: [SiteFacts],
   plugins: [vercelBlobStorage({
     enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
