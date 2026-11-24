@@ -1,6 +1,6 @@
 # D2 · Toetsbare eisen
 
-Stand: 24 november 2026, technische verificatie loopt. Eindresultaten en bewijs staan in D6. Niet ingediend.
+Stand: 24 november 2026, technische controles geslaagd; menselijke onderdelen blijven open. Eindresultaten en bewijs staan in D6. Niet ingediend.
 
 | Id | Requirement | Serves | Check | Result |
 |---|---|---|---|---|

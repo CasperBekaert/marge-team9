@@ -8,15 +8,26 @@ Taak 1: filterformulier → serverquery → CMS-methodes → detail en omgekeerd
 
 ## What we saw
 
-Tijdens implementatie gevonden en hersteld: JSX-fout in lokale planner, nullable transactie-ID, behoud verzoek-ID bij netwerkherhaling, aangepaste oude tests die nog fietsherstelinhoud verwachtten. De eerste CI-run had 426 geslaagde tests en drie browserfouten: één mobiele kalenderoverloop en twee te brede testselectors. De kalender krijgt begrensde kolommen en afbreekbare labels; selectors richten zich op de specifieke foutmelding. Een fixture verwacht losse collectie-imports; de configuratie volgt die afspraak. Seedtests ruimen hun testbeheerder na afloop op. De definitieve hertest wordt bij de release vastgelegd.
+Tijdens implementatie gevonden en hersteld: JSX-fout in lokale planner, nullable transactie-ID, behoud verzoek-ID bij netwerkherhaling, aangepaste oude tests die nog fietsherstelinhoud verwachtten. De eerste CI-run had 426 geslaagde tests en drie browserfouten: één mobiele kalenderoverloop en twee te brede testselectors. De kalender krijgt begrensde kolommen en afbreekbare labels; selectors richten zich op de specifieke foutmelding. Een fixture verwacht losse collectie-imports; de configuratie volgt die afspraak. Seedtests ruimen hun testbeheerder na afloop op. Na de Payload-update bleek de oude testopruiming een al vrijgegeven databaseverbinding nogmaals vrij te geven. Die workaround is verwijderd; de starter-fixture gebruikt expliciet zijn eigen transactieconfiguratie. Geen test is uitgezet om deze fouten te verbergen.
 
 ## What we changed, and the retest
 
-Zie bovenstaande reparaties; definitieve tests worden hieronder vastgelegd.
+Hertest op commit `e669b3582d4a1999abca3fcac1da74560c3a3c53`: alle 54 testbestanden geslaagd, 446 tests geslaagd en 7 niet-toepasselijke warm-up/example-tests overgeslagen. Alle 48 browserchecks op 390px en 1100px geslaagd, inclusief axe zonder ernstige of kritieke meldingen, toetsenbord, filters zonder JavaScript, tweerollenflow en lokale planner. Migraties, gegenereerde types, AI-note en voorbeeldinhoudcontrole zijn eveneens groen. [CI-bewijs](https://github.com/CasperBekaert/marge-team9/actions/runs/45396809191).
 
 ## The release check
 
-Nog in uitvoering. De websitepublicatie is geen opdrachtindiening.
+Publieke URL: https://marge-team9.vercel.app. Technische releasecontrole op 24 november 2026:
+
+- De 3 fases en 13 methodes staan in Postgres; de course-check herkent de echte M:N-relatie.
+- Op productie een eigen voorbeeldgroep gemaakt, beschikbaarheid bewaard, voorstel gedaan en als andere rol bevestigd. Na herladen blijft de bevestiging staan.
+- Het testrecord met `T09-7LPS` wordt door `/api/course-check?include=team&code=T09-7LPS` gevonden: `appointments`, status `ok`, record-id `1`. Dit is uitsluitend een technische test.
+- Beheerlogin werkt. Anonieme REST-toegang tot participants, appointments en mentorGroups geeft 403.
+- OpenStreetMap laadt na klik en toont de kaart en attributie.
+- De Nederlandse ElevenLabs-intro speelt, pauzeert en duurt 54,6 seconden. Focusruis start en stopt op verzoek. Geen autoplay.
+- Op de bijgewerkte preview is de homepage op 390px exact 390px breed; de kalenderoverloop is hersteld.
+- Web Analytics is in het Vercel-project ingeschakeld. Er zijn nog geen onderbouwde conclusies over echte gebruikers.
+
+De eindpublicatie volgt via de gecontroleerde PR naar main; de laatste main-run en Vercel-deployment tonen de exacte releasecommit. Deze websitepublicatie is geen opdrachtindiening.
 
 ## Not tested yet
 
