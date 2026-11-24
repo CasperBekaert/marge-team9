@@ -16,7 +16,7 @@ Stand: 24 november 2026, technische controles geslaagd; menselijke onderdelen bl
 | R10 | Bescheiden analytics | Studie- of mentortaak | Alleen paginabezoeken, query en hash verwijderd, privacytekst | Vercel-instelling en component |
 | R11 | Geluid op eigen initiatief | Studie- of mentortaak | Luisteruitleg start niet automatisch; tekst blijft leesbaar; geluid uitschakelbaar | Toegevoegd aan scope op verzoek |
 | R12 | Publicatie | Studie- of mentortaak | Publieke GitHub-code, productie op Vercel, footerlink, course-check met testrecord | Releasecontrole |
-| R13 | Menselijk teamwerk | Studie- of mentortaak | Elk lid eigen code-PR, echte review, bevestigde teamafspraken | Nog door team uit te voeren |
+| R13 | Menselijk teamwerk | Studie- of mentortaak | Elk lid gemergede code-PR, bevestigde teamafspraken | Nog door team uit te voeren |
 | R14 | Menselijke gebruikerstest | Studie- of mentortaak | Een echte proefpersoon voert twee taken uit; observaties en aanpassingen vastgelegd | Script klaar; test nog uit te voeren |
 
 R13 en R14 zijn geen automatisch behaalde eisen. Deze werkversie mag het team eerst aanpassen. Publiceren van een werkende website is geen indiening bij de cursus.

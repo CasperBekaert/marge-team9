@@ -25,9 +25,15 @@ Publieke URL: https://marge-team9.vercel.app. Technische releasecontrole op 24 n
 - OpenStreetMap laadt na klik en toont de kaart en attributie.
 - De Nederlandse ElevenLabs-intro speelt, pauzeert en duurt 54,6 seconden. Focusruis start en stopt op verzoek. Geen autoplay.
 - Op de bijgewerkte preview is de homepage op 390px exact 390px breed; de kalenderoverloop is hersteld.
-- Web Analytics is in het Vercel-project ingeschakeld. Er zijn nog geen onderbouwde conclusies over echte gebruikers.
+- Bij de aanvullende controle op 24 november bleek Web Analytics nog niet actief. Het gratis Hobby-plan is daarna in het Vercel-dashboard ingeschakeld en de actieve lege teller is gecontroleerd. Daarna gaf Vercels analytics-API voor /methodes op 24 november 2026 één bezoeker en één pageview terug. Dit is de technische test, geen bewijs van echt gebruik.
 
 De eindpublicatie volgt via de gecontroleerde PR naar main; de laatste main-run en Vercel-deployment tonen de exacte releasecommit. Deze websitepublicatie is geen opdrachtindiening.
+
+### Aanvullende blokplannercontrole
+
+Het oorspronkelijke Claude-prototype is in Chrome vergeleken: vakken en examendata invullen, daarna kalenderdagen inkleuren. De lijst is vervangen door die werkwijze, met drie zichtbare maanden, studeren/herhalen/rust/wissen, vaste examendagen, vakken wijzigen, één stap ongedaan maken, lijstweergave en CSV. Oude lokale lijstgegevens migreren met behoud van alle records en de oude opslagsleutel.
+
+Lokale controles: lint, types en drie gerichte tests geslaagd (schrikkeljaren/jaargrens; oude planning inclusief meerdere examens; kleuren, wissen en examendagbescherming). In Chrome vak ingevoerd, studie/herhaling/rust gekleurd, toetsenbordactivatie, undo en herladen gecontroleerd. De volledige CI controleert ook de kalenderflow op 390 en 1100 px. Dit zijn technische agentcontroles, geen menselijke gebruikerstest.
 
 ## Not tested yet
 
@@ -48,3 +54,4 @@ Deelnemer: nog niet geworven. Observaties: nog niet verzameld. Teamreviews en in
 ### Afhankelijkheden
 
 Next is bijgewerkt naar 16.4.6, Payload naar 3.94.1, sharp naar 0.35.5 en de Node-minimumversie naar 22.23.5. Happy DOM is overal vastgezet op 21.0.4. De audit na deze updates telt geen hoge of kritieke meldingen. Vijf middelzware meldingen blijven in de esbuild-keten van de migratietool drizzle-kit; npm geeft geen beschikbare upstreamreparatie. De betreffende ontwikkelserver wordt niet openbaar gestart. Houd deze afhankelijkheid bij toekomstige updates in het oog.
+
