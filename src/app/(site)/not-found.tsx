@@ -1,23 +1,22 @@
-// The "page not found" page (error 404): shown when an address has no page behind it, for example a
-// mistyped link or a record that was removed. It says what happened in plain words and offers the
-// two most useful ways on, instead of leaving the user stuck.
-import { ButtonLink } from '@/components/site/ButtonLink'
-import { PageTitle } from '@/components/site/PageTitle'
+import Link from 'next/link'
 import { SITE_NAME } from '@/content/campus-cycle'
-
 export default function NotFound() {
   return (
-    <div className="pb-6">
-      {/* React puts this <title> in the page's <head>: the browser tab says what happened too. This page
-          gets no title from the layout, so it adds the site's name itself. */}
-      <title>{`Page not found · ${SITE_NAME}`}</title>
-      <PageTitle
-        title="We could not find that page"
-        intro="The link may be mistyped, or the page was moved or removed. Try one of these instead:"
-      />
-      <div className="flex flex-wrap gap-3 px-6 sm:px-10 lg:px-14">
-        <ButtonLink href="/">Go to the home page</ButtonLink>
-        <ButtonLink href="/clinics" variant="secondary">See the repair clinic</ButtonLink>
+    <div className="wrap section">
+      <title>{`Pagina niet gevonden · ${SITE_NAME}`}</title>
+      <p className="eyebrow">Deze pagina is er niet</p>
+      <h1>Even de weg kwijt?</h1>
+      <p className="lead">
+        Misschien is de link veranderd. Je kan altijd opnieuw beginnen bij je week of de
+        studiemethodes.
+      </p>
+      <div className="actions">
+        <Link className="button" href="/">
+          Naar het begin
+        </Link>
+        <Link href="/methodes" className="text-link">
+          Zoek een methode
+        </Link>
       </div>
     </div>
   )

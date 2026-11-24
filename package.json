@@ -1,7 +1,7 @@
 {
-  "name": "bw-starter-app",
+  "name": "marge-team9",
   "version": "1.0.0",
-  "description": "Campus Cycle: the Next.js 16 + Payload 3 course starter students copy.",
+  "description": "Marge: studiemethodes, werkbladen en gedeelde mentorplanning.",
   "license": "MIT",
   "type": "module",
   "engines": {
